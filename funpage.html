@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fun Page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">BookNest</a>
+  </div>
+</nav>
+
+<header class="text-white text-center py-5" style="background-color:#3d1f0a;">
+  <div class="container">
+    <h1 class="fw-bold">Fun Page</h1>
+    <p class="lead mb-0">Guess the Book Title</p>
+  </div>
+</header>
+
+<!-- Game -->
+<div class="container mt-5 text-center">
+
+  <h3 id="question">Click Start to Play</h3>
+
+  <div class="mt-4">
+    <button class="btn btn-outline-dark m-2" onclick="checkAnswer(0)" id="btn0"></button>
+    <button class="btn btn-outline-dark m-2" onclick="checkAnswer(1)" id="btn1"></button>
+    <button class="btn btn-outline-dark m-2" onclick="checkAnswer(2)" id="btn2"></button>
+  </div>
+
+  <div class="mt-4">
+    <button class="btn btn-warning" onclick="startGame()">Start Game</button>
+    <button class="btn btn-secondary" onclick="nextQuestion()">Next</button>
+  </div>
+
+  <h4 id="result" class="mt-4"></h4>
+
+</div>
+
+<script>
+
+
+// Array of questions
+
+
+var questions = [
+  {
+    q:"Which book is about a young wizard?",
+    options: ["Harry Potter", "The Road", "Frankenstein"],
+    answer: 0
+  },
+  {
+    q: "Which book is about a wealthy man named Gatsby?",
+    options:["The Great  Gatsby", "The City of God", "The Swallows"],
+    answer: 0
+  },
+  {
+    q: "Which book talks about kings and battles?",
+    options: ["A Game of  Thrones", "Frankenstein", "The Road"],
+    answer: 0
+  }
+];
+
+
+// Game variables
+
+ /*It starts from 0 (first question)
+  every time the user clicks "next" it increases
+*/
+var index = 0;
+
+
+// Start game function
+/*
+  this function is called when the user clicks "Start Game"
+  It does 3 things reset the question index to 0 (start from beginning),fisplay the first question
+  and  clear any previous result text
+*/
+
+function startGame() {
+
+  index = 0;
+  showQuestion();
+  document.getElementById("result").innerHTML = "";
+}
+
+
+// Show question on screen
+//this function displays the current question and its options
+
+
+function showQuestion() {
+
+  document.getElementById("question").innerHTML = questions[index].q;
+
+  document.getElementById("btn0").innerHTML = questions[index].options[0];
+  document.getElementById("btn1").innerHTML= questions[index].options[1];
+  document.getElementById("btn2").innerHTML  = questions[index].options[2];
+}
+
+
+// Check answer when user clicks a button
+/*
+  this function runs when the user clicks one of the answer buttons
+
+  the choice parameter represents which button was clicked:
+  0 = first button
+  1 = second button
+  2 = third button
+
+  we compare the user choice with the correct answer
+*/
+function checkAnswer(choice) {
+
+  if (choice == questions[index].answer) {
+
+    document.getElementById("result").innerHTML = "Correct!";
+  } else {
+
+    document.getElementById("result").innerHTML= "Wrong!";
+  }
+}
+
+
+// Go to next question
+/*
+  This function runs when the user clicks "Next" It moves to the next question,checks if there are more questions
+  and displays next question OR finishes the game
+*/
+
+function nextQuestion() {
+
+  index++;
+
+  if (index < questions.length) {
+
+    showQuestion();
+    document.getElementById("result").innerHTML = "";
+
+  } else {
+
+    document.getElementById("question").innerHTML = "Game Finished!";
+    document.getElementById("result").innerHTML = "Good job!";
+  }
+}
+
+</script>
+
+</body>
+</html>
