@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Makes page responsive on all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Borrowing Tracking</title>
+
+    <!--Add bootstrap-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+crossorigin="anonymous"></script>
+    <style>
+        /* add colors and style */
+        .hero { background-color: #3d1f0a; color: white; }
+        .btn-orange { background-color: #bd5e1b; color: white; border: none; }
+        .btn-orange:hover { background-color: #a04e16; color: white; }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3d1f0a;">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">BookNest</a>
+
+            <!-- menu links -->
+           <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="books.html">Books</a>
+            <a class="nav-link" href="return and borrow.html">Borrow / Return</a>
+            <a class="nav-link" href="questionnaire.html">Questionnaire</a>
+            <a class="nav-link" href="calculate.html">Calculate</a>
+            <a class="nav-link" href="fun.html">Fun Page</a>
+</div>
+        
+    </nav>
+
+    <div class="container mt-5">
+
+        <!-- Page title -->
+        <h2 class="text-center mb-4">Borrowing & Returns Tracking</h2>
+
+        <!-- Searching  -->
+        <div class="row mb-4">
+            <div class="col-md-8 mx-auto">
+                <!-- Calls executeSearch when typing -->
+                <input type="text" id="searchInput" class="form-control"
+                placeholder="Search by student or book title..."
+                onkeyup="executeSearch()">
+            </div>
+        </div>
+
+        <!-- Transactions table -->
+        <h4 class="mb-3">Active Transactions</h4>
+        <div class="table-responsive mb-5 shadow-sm rounded">
+            <table class="table table-bordered table-hover bg-white mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Student Name</th>
+                        <th>Book Borrowed</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <!-- adding data using JavaScript -->
+                <tbody id="transactionTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Membership table -->
+        <h4 class="mb-3">Membership Types</h4>
+        <div class="table-responsive mb-5 shadow-sm rounded">
+            <table class="table table-bordered bg-white mb-0">
+                <thead class="table-info">
+                    <tr>
+                        <th>ID</th>
+                        <th>Membership Name</th>
+                        <th>Limit (Books)</th>
+                    </tr>
+                </thead>
+                <!-- Data will be added here -->
+                <tbody id="membershipTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Form to add new transaction -->
+        <div class="card shadow-sm mb-5 border-0">
+            <div class="card-header hero py-3">
+                <h5 class="mb-0">Record New Transaction</h5>
+            </div>
+
+            <div class="card-body bg-white">
+                <form id="borrowForm" class="row g-3">
+
+                    <!-- Student name -->
+                    <div class="col-md-4">
+                        <input type="text" id="field1" class="form-control"
+                        placeholder="Student Name" required>
+                    </div>
+
+                    <!-- Book title -->
+                    <div class="col-md-4">
+                        <input type="text" id="field2" class="form-control"
+                        placeholder="Book Title" required>
+                    </div>
+
+                    <!-- Due date -->
+                    <div class="col-md-3">
+                        <input type="date" id="field3" class="form-control" required>
+                    </div>
+
+                    <!-- Add button -->
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-orange w-100"
+                        onclick="handleAddition()">Add</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Object for transaction
+        function Transaction(id, student, book, dueDate) {
+            this.id = id;
+            this.student = student;
+            this.book = book;
+            this.dueDate = dueDate;
+        }
+
+        // Object for membership
+        function Membership(mid, name, limit) {
+            this.mid = mid;
+            this.name = name;
+            this.limit = limit;
+        }
+
+        // Initial transactions data
+        let transactionsArray = [
+            new Transaction("T001", "Ahmed Al-Saidi", "The Great Gatsby", "2026-05-01"),
+            new Transaction("T002", "Sara Al-Balushi", "The Road", "2026-04-20"),
+            new Transaction("T003", "Mohammed Al-Abri", "The City of God", "2026-04-28")
+        ];
+
+        // Membership data
+        let membershipsArray = [
+            new Membership(1, "Silver", 2),
+            new Membership(2, "Gold", 5),
+            new Membership(3, "Platinum", 10)
+        ];
+
+        // Fill transactions table
+        function fillTransactionTable(data) {
+            const body = document.getElementById("transactionTableBody");
+            body.innerHTML = ""; // clear table
+
+            data.forEach(t => {
+                let row = body.insertRow();
+                row.insertCell(0).innerText = t.id;
+                row.insertCell(1).innerText = t.student;
+                row.insertCell(2).innerText = t.book;
+                row.insertCell(3).innerText = t.dueDate;
+            });
+        }
+
+        // Fill membership table
+        function fillMembershipTable(data) {
+            const body = document.getElementById("membershipTableBody");
+            body.innerHTML = "";
+
+            data.forEach(m => {
+                let row = body.insertRow();
+                row.insertCell(0).innerText = m.mid;
+                row.insertCell(1).innerText = m.name;
+                row.insertCell(2).innerText = m.limit;
+            });
+        }
+
+        // Add new transaction
+        function handleAddition() {
+            const s = document.getElementById("field1").value;
+            const b = document.getElementById("field2").value;
+            const d = document.getElementById("field3").value;
+
+            // Check if inputs are filled
+            if (s && b && d) {
+                // Add new transaction
+                transactionsArray.push(
+                    new Transaction("T00" + (transactionsArray.length + 1), s, b, d)
+                );
+
+                // Refresh table
+                fillTransactionTable(transactionsArray);
+
+                // Clear form
+                document.getElementById("borrowForm").reset();
+            }
+        }
+
+        // Search function
+        function executeSearch() {
+            const q = document.getElementById("searchInput").value.toLowerCase();
+
+            // Filter data
+            const filtered = transactionsArray.filter(t =>
+                t.student.toLowerCase().includes(q) ||
+                t.book.toLowerCase().includes(q)
+            );
+
+            // Show filtered data
+            fillTransactionTable(filtered);
+        }
+
+        // Run when page loads
+        window.onload = () => {
+            fillTransactionTable(transactionsArray);
+            fillMembershipTable(membershipsArray);
+        };
+    </script>
+
+</body>
+</html>
