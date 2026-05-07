@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .hero { background-color: #3d1f0a; color: white; }
+    .btn-orange { background-color: #bd5e1b; color: white; border: none; }
+    .btn-orange:hover { background-color: #a04e16; color: white; }
+    navbar-dark { background-color: #3d1f0a; }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3d1f0a;">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">BookNest</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="return and borrow.html">Return/Borrow</a></li>
+          <li class="nav-item"><a class="nav-link" href="books.html">Books</a></li>
+          <li class="nav-item"><a class="nav-link" href="aboutus.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link active" href="Contact Us.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero text-center py-5">
+    <h1>Contact Us</h1>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container my-5">
+    <div class="row justify-content-center g-4">
+
+      <!-- EMAIL INFO CARD -->
+      <div class="col-12 col-md-4">
+        <div class="card p-4 h-100">
+          <h5 class="mb-3">Reach us by email</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <a href="mailto:s147006@student.squ.edu.om" class="text-decoration-none" style="color: #bd5e1b;">
+                s147006@student.squ.edu.om
+              </a>
+            </li>
+            <li class="mb-2">
+              <a href="mailto:144783@student.squ.edu.om" class="text-decoration-none" style="color: #bd5e1b;">
+                144783@student.squ.edu.om
+              </a>
+            </li>
+            <li>
+              <a href="mailto:153061@student.squ.edu.om" class="text-decoration-none" style="color: #bd5e1b;">
+                153061@student.squ.edu.om
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CONTACT FORM CARD -->
+      <div class="col-12 col-md-6">
+        <div class="card p-4">
+          <h5 class="mb-3">Send us a message</h5>
+          <form id="contactForm" method="post" action="mailto:s147006@student.squ.edu.om" onsubmit="return validateContactForm();">
+
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Your name">
+              <div id="nameError" class="text-danger small mt-1"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Your email">
+              <div id="emailError" class="text-danger small mt-1"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="phone" name="phone" placeholder="8 digit phone number">
+              <div id="phoneError" class="text-danger small mt-1"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <textarea class="form-control" id="message" name="message" rows="5" placeholder="Write your message here..."></textarea>
+              <div id="messageError" class="text-danger small mt-1"></div>
+            </div>
+
+            <button type="submit" class="btn btn-orange w-100">Send Email</button>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script type="text/javascript">
+  function showError(inputId, errorId, message) {
+    var input = document.getElementById(inputId);
+    var error = document.getElementById(errorId);
+    error.innerHTML = message;
+
+    if (message === "") {
+      input.style.borderColor = "";
+    } else {
+      input.style.borderColor = "red";
+    }
+  }
+
+  function validateContactForm() {
+    var valid = true;
+
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var phone = document.getElementById("phone").value.trim();
+    var message = document.getElementById("message").value.trim();
+
+    var namePattern = /^[A-Za-z ]{2,50}$/;
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var phonePattern = /^[0-9]{8}$/;
+
+    if (name === "") {
+      showError("name", "nameError", "Name is required.");
+      valid = false;
+    } else if (!namePattern.test(name)) {
+      showError("name", "nameError", "Name must be 2-50 letters only.");
+      valid = false;
+    } else {
+      showError("name", "nameError", "");
+    }
+
+    if (email === "") {
+      showError("email", "emailError", "Email is required.");
+      valid = false;
+    } else if (!emailPattern.test(email)) {
+      showError("email", "emailError", "Enter a valid email address.");
+      valid = false;
+    } else {
+      showError("email", "emailError", "");
+    }
+
+    if (phone === "") {
+      showError("phone", "phoneError", "Phone number is required.");
+      valid = false;
+    } else if (!phonePattern.test(phone)) {
+      showError("phone", "phoneError", "Phone number must contain exactly 8 digits.");
+      valid = false;
+    } else {
+      showError("phone", "phoneError", "");
+    }
+
+    if (message === "") {
+      showError("message", "messageError", "Message is required.");
+      valid = false;
+    } else if (message.length < 10 || message.length > 300) {
+      showError("message", "messageError", "Message must be between 10 and 300 characters.");
+      valid = false;
+    } else {
+      showError("message", "messageError", "");
+    }
+
+    return valid;
+  }
+
+  document.getElementById("name").onblur = function() { validateContactForm(); };
+  document.getElementById("email").onblur = function() { validateContactForm(); };
+  document.getElementById("phone").onblur = function() { validateContactForm(); };
+  document.getElementById("message").onblur = function() { validateContactForm(); };
+</script>
+
+</body>
+</html>
